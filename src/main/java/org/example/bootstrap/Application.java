@@ -92,9 +92,10 @@ public class Application {
                 }
             }
         }
-
-        if (input.equals(3)) {
-            System.out.println("g");
+        if (input.equals("3")) {
+            System.out.println("Введите название препарата, который хотите принять: ");
+            String title = keyboard.next();
+            System.out.println(title + " принят");
         }
     }
 }
