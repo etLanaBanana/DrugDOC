@@ -1,9 +1,6 @@
 package org.example.service;
 
-import org.example.entity.AvailabilityOfDrug;
-import org.example.entity.GeneraleRecipeKey;
-import org.example.entity.Recipe;
-import org.example.entity.User;
+import org.example.entity.*;
 
 import java.lang.*;
 
@@ -224,6 +221,61 @@ public class FileUtils {
         }
         return recipe;
     }
+    public static SignRecipe readSignRecipe(String fileName) {
+        FileReader fileReader = null;
+        BufferedReader bufferedReader = null;
+        SignRecipe signRecipe = new SignRecipe();
+        try {
+            fileReader = new FileReader(fileName);
+            bufferedReader = new BufferedReader(fileReader);
+
+            bufferedReader.readLine();
+
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] partsOfLine = getPartsOfLine(line);
+
+               signRecipe = new SignRecipe(partsOfLine[0],
+                        partsOfLine[1], partsOfLine[2]);
+
+
+            }
+            bufferedReader.close();
+            fileReader.close();
+
+        } catch (IOException e) {
+            try {
+                bufferedReader.close();
+                fileReader.close();
+            } catch (Exception er) {
+                System.out.println("Произошла ошибка");
+            }
+            throw new RuntimeException("Такой файл не найден");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return signRecipe;
+    }
+    public static void writeDataToSignRecipe(List<SignRecipe> signRecipe , String fileName) {
+        FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
+        try {
+            fileWriter = new FileWriter(fileName);
+            bufferedWriter = new BufferedWriter(fileWriter);
+
+            SignRecipe[] signRecipes = (SignRecipe[]) signRecipe.toArray();
+
+            for (int i = 0; i < signRecipe.size(); i++) {
+                bufferedWriter.write(signRecipes[i] + "\n");
+            }
+
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
 
 

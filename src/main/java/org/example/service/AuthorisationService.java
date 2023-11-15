@@ -30,6 +30,17 @@ public class AuthorisationService {
 
         return hashedPassword.equals(user.getPassword());
     }
+    public User findUser(String password, List<User> users) {
+        User user = users
+                .parallelStream()
+                .filter(u -> u.getName().equals(new HmacUtils(HMAC_SHA_224, secret.getBytes()).hmacHex(password)))
+                .findFirst()
+                .orElseThrow(() -> {
+                    System.out.println("НЕ смогли найти пользователя");
+                    return new IllegalArgumentException("Такого пользователя нет");
+                });
+        return user;
+    }
 
 }
 
