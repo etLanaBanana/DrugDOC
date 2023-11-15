@@ -33,12 +33,14 @@ public class AuthorisationService {
     public User findUser(String password, List<User> users) {
         User user = users
                 .parallelStream()
-                .filter(u -> u.getName().equals(new HmacUtils(HMAC_SHA_224, secret.getBytes()).hmacHex(password)))
+                .filter(u -> u.getPassword().equals(new HmacUtils(HMAC_SHA_224, secret.getBytes()).hmacHex(password)))
                 .findFirst()
                 .orElseThrow(() -> {
                     System.out.println("НЕ смогли найти пользователя");
                     return new IllegalArgumentException("Такого пользователя нет");
                 });
+        System.out.println("Рецепт подписан");
+        System.out.println("__________________________________________________________");
         return user;
     }
 

@@ -38,7 +38,7 @@ public class Application {
         String password = keyboard.nextLine();
         AuthorisationService authorisationService = new AuthorisationService();
        while (!authorisationService.tryToAuthoriseUser(login, password, a.users)) {
-           System.out.println("Введите ваш пароль");
+           System.out.println("Вы вели неверный пароль, попробуйте еще раз!");
            password = keyboard.nextLine();
         }
         System.out.println("Выберите один из пунктов");
@@ -58,7 +58,7 @@ public class Application {
                 String title = keyboard.nextLine();
                 for (AvailabilityOfDrug availability : a.availabilityOfDrugs) {
                     if (availability.getTitleDrug().equals(title)) {
-                        System.out.println(title + " есть в наличии " + availability.getRemains() + " упаковок");
+                        System.out.println(title + " в наличии " + availability.getRemains() + " упаковок");
                         isDrugAvailable = true;
                         break;
                     }
@@ -80,13 +80,14 @@ public class Application {
             System.out.println(a.recipe);
             menu.printMenu1();
             String k = "";
-            while (!k.equals("4")) {
+            while (!k.equals("4") && (!k.equals("1")) && (!k.equals("2")) && (!k.equals("3"))) {
                 k = keyboard.nextLine();
                 if (k.equals("1")) {
                     for (GeneraleRecipeKey generale : a.generaleRecipeKeys) {
                         String hashedPassword = new HmacUtils(HMAC_SHA_224, "secret".getBytes()).hmacHex(generale.keyWord);
                         if (hashedPassword.equals(a.recipe.uniqueKey)) {
                             System.out.println("Рецепт прошел проверку на подлинность");
+                            k = keyboard.nextLine();
                             break;
                         }
                     }
@@ -100,6 +101,9 @@ public class Application {
                             String hashedPassword = new HmacUtils(HMAC_SHA_224, "secret".getBytes()).hmacHex(generale.keyWord);
                             if (hashedPassword.equals(a.recipe.uniqueKey)) {
                                 generale.setAvailableCount(generale.getAvailableCount() - count);
+                                System.out.println("Выдано " + a.recipe.getTitleDrug() + " в количестве " +
+                                        count + " упаковок");
+                                k = keyboard.nextLine();
                                 break;
                             }
                         }
@@ -110,6 +114,7 @@ public class Application {
                 if (k.equals("3")) {
                     System.out.println("Введите пароль для подтверждения вашей личности");
                     String password1 = keyboard.nextLine();
+
                     User user = authorisationService.findUser(password1,a.users);
                     SignRecipe signRecipe = new SignRecipe(a.recipe.getTitleDrug(), a.recipe.getUniqueKey(),user.getPassword());
                 }
@@ -117,11 +122,13 @@ public class Application {
         }
         if (input.equals("3")) {
             System.out.println("Введите название препарата, который хотите принять: ");
-            String title = keyboard.next();
+            String title = keyboard.nextLine();
+            System.out.println("Введите количество упаковок");
             int ramains = keyboard.nextInt();
             AvailabilityOfDrug availabilityOfDrug = new AvailabilityOfDrug(title, ramains);
             a.availabilityOfDrugs.add(availabilityOfDrug);
             System.out.println(title + " принят");
+
         }
     }
 }
