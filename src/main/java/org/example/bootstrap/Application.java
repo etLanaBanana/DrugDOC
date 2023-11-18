@@ -134,6 +134,7 @@ public class Application {
 
                     User user = authorisationService.findUser(password1,a.users);
                     SignRecipe signRecipe = new SignRecipe(a.recipe.getTitleDrug(), a.recipe.getUniqueKey(),user.getPassword());
+                    System.out.println(a.recipe);
                 }
             }
         }
@@ -148,9 +149,9 @@ public class Application {
 
         }
 
-        FileUtils.writeDataToAvailabilityOfDrug(a.availabilityOfDrugs,"src\\main\\resources\\availabilityOfDrug");
-        FileUtils.writeDataToFileGeneraleRecipeKey(a.generaleRecipeKeys,"src\\main\\resources\\generaleRecipeKey");
-        FileUtils.writeDataToSignRecipe(a.signRecipes, "src\\main\\resources\\recipe");
+        FileUtils.writeDataToAvailabilityOfDrug(a.availabilityOfDrugs,"src\\main\\resources\\availabilityOfDrug2");
+        FileUtils.writeDataToFileGeneraleRecipeKey(a.generaleRecipeKeys,"src\\main\\resources\\generaleRecipeKey2");
+        FileUtils.writeDataToSignRecipe(a.signRecipes, "src\\main\\resources\\recipe2");
     }
 }
 

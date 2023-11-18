@@ -12,6 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 
+
 public class Recipe {
     public String titleDrug;
     public String nameDoc;

@@ -116,7 +116,7 @@ public class FileUtils {
             fileWriter = new FileWriter(fileName);
             bufferedWriter = new BufferedWriter(fileWriter);
 
-            AvailabilityOfDrug[] availabilityOfDrug = (AvailabilityOfDrug[]) availabilityOfDrugs.toArray();
+            AvailabilityOfDrug[] availabilityOfDrug = availabilityOfDrugs.toArray(new AvailabilityOfDrug[0]);
 
             for (int i = 0; i < availabilityOfDrug.length; i++) {
                 bufferedWriter.write(availabilityOfDrug[i] + "\n");
@@ -175,7 +175,7 @@ public class FileUtils {
             fileWriter = new FileWriter(fileName);
             bufferedWriter = new BufferedWriter(fileWriter);
 
-            GeneraleRecipeKey[] generaleRecipeKey = (GeneraleRecipeKey[]) generaleRecipeKeys.toArray();
+            GeneraleRecipeKey[] generaleRecipeKey = generaleRecipeKeys.toArray(new GeneraleRecipeKey[0]);
 
             for (int i = 0; i < generaleRecipeKey.length; i++) {
                 bufferedWriter.write(generaleRecipeKey[i] + "\n");
@@ -264,7 +264,7 @@ public class FileUtils {
             fileWriter = new FileWriter(fileName);
             bufferedWriter = new BufferedWriter(fileWriter);
 
-            SignRecipe[] signRecipes = (SignRecipe[]) signRecipe.toArray();
+            SignRecipe[] signRecipes = signRecipe.toArray(new SignRecipe[0]);
 
             for (int i = 0; i < signRecipe.size(); i++) {
                 bufferedWriter.write(signRecipes[i] + "\n");

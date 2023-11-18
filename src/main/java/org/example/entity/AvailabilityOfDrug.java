@@ -10,8 +10,8 @@ import lombok.Setter;
 public class AvailabilityOfDrug { // наличие лекарств
     public String titleDrug;
     public int remains; //остаток
-//    @Override
-//    public String toString() {
-//        return "Название препарата: " + titleDrug + ". Доступный остаток: " + remains + " пачек/пачка" + "\n";
-//    }
+    @Override
+    public String toString() {
+        return "Название препарата: " + titleDrug + ". Доступный остаток: " + remains + " пачек/пачка" + "\n";
+    }
 }
