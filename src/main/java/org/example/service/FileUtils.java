@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class FileUtils {
+
     static String[] getPartsOfLine(String line) {
 
         return line.split(", ");
@@ -221,10 +222,10 @@ public class FileUtils {
         }
         return recipe;
     }
-    public static SignRecipe readSignRecipe(String fileName) {
+    public static List<SignRecipe> readSignRecipe(String fileName) {
         FileReader fileReader = null;
         BufferedReader bufferedReader = null;
-        SignRecipe signRecipe = new SignRecipe();
+        List<SignRecipe> signRecipes = new ArrayList<>();
         try {
             fileReader = new FileReader(fileName);
             bufferedReader = new BufferedReader(fileReader);
@@ -236,10 +237,9 @@ public class FileUtils {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] partsOfLine = getPartsOfLine(line);
 
-               signRecipe = new SignRecipe(partsOfLine[0],
+              SignRecipe signRecipe = new SignRecipe(partsOfLine[0],
                         partsOfLine[1], partsOfLine[2]);
-
-
+                signRecipes.add(signRecipe);
             }
             bufferedReader.close();
             fileReader.close();
@@ -255,7 +255,7 @@ public class FileUtils {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return signRecipe;
+        return signRecipes;
     }
     public static void writeDataToSignRecipe(List<SignRecipe> signRecipe , String fileName) {
         FileWriter fileWriter = null;

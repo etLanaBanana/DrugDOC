@@ -31,6 +31,7 @@ public class AuthorisationService {
         return hashedPassword.equals(user.getPassword());
     }
     public User findUser(String password, List<User> users) {
+
         User user = users
                 .parallelStream()
                 .filter(u -> u.getPassword().equals(new HmacUtils(HMAC_SHA_224, secret.getBytes()).hmacHex(password)))

@@ -1,12 +1,10 @@
 package org.example.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@ToString
 @Getter
 @Setter
 public class SignRecipe {

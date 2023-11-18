@@ -6,6 +6,7 @@ import org.example.service.AuthorisationService;
 import org.example.service.FileUtils;
 import org.example.service.Menu;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,6 +18,8 @@ public class Application {
     public final List<GeneraleRecipeKey> generaleRecipeKeys;
     public final List<AvailabilityOfDrug> availabilityOfDrugs;
     public final Recipe recipe;
+    public final List<SignRecipe> signRecipes;
+
 
 
 
@@ -25,6 +28,7 @@ public class Application {
         generaleRecipeKeys = FileUtils.readGeneraleRecipeKey("src\\main\\resources\\generaleRecipeKey");
         availabilityOfDrugs = FileUtils.readAvailabilityOfDrug("src\\main\\resources\\availabilityOfDrug");
         recipe = FileUtils.readRecipe("src\\main\\resources\\recipe");
+        signRecipes = FileUtils.readSignRecipe("src\\main\\resources\\signArecipe");
 
     }
 
@@ -78,6 +82,15 @@ public class Application {
 
         if (input.equals("2")) {
             System.out.println(a.recipe);
+            String[] massDate = a.recipe.dateOfAction.split("-");
+            LocalDate otherDate = LocalDate.of(Integer.parseInt(massDate[2]), Integer.parseInt(massDate[1]), Integer.parseInt(massDate[0]));
+            LocalDate nowDate = LocalDate.now();
+            if (nowDate.isAfter(otherDate)) {
+                System.out.println(nowDate);
+                System.out.println(otherDate);
+                System.out.println("Рецепт просрочен");
+                System.exit(0);
+            }
             menu.printMenu1();
             String k = "";
             while (!k.equals("4") && (!k.equals("1")) && (!k.equals("2")) && (!k.equals("3"))) {
@@ -94,8 +107,12 @@ public class Application {
                 }
                 if (k.equals("2")) {
                     System.out.println("Введите приобретаемое количество");
+
                     int count = keyboard.nextInt();
-                    if(a.recipe.getTotalQuantity() >= count) {
+                    while (!(a.recipe.getTotalQuantity() >= count)) {
+                        System.out.println("Введите количество не превышающее остаток");
+                        count = keyboard.nextInt();
+                    }
                         a.recipe.setTotalQuantity(a.recipe.getTotalQuantity() - count);
                         for (GeneraleRecipeKey generale : a.generaleRecipeKeys) {
                             String hashedPassword = new HmacUtils(HMAC_SHA_224, "secret".getBytes()).hmacHex(generale.keyWord);
@@ -103,15 +120,15 @@ public class Application {
                                 generale.setAvailableCount(generale.getAvailableCount() - count);
                                 System.out.println("Выдано " + a.recipe.getTitleDrug() + " в количестве " +
                                         count + " упаковок");
+                                System.out.println("Для подписания рецепта выберите 3 пункт меню");
                                 k = keyboard.nextLine();
+
                                 break;
-                            }
                         }
-                    } else {
-                        System.out.println("Вы количество не превышающее остаток");
                     }
                 }
                 if (k.equals("3")) {
+                    System.out.println(" ");
                     System.out.println("Введите пароль для подтверждения вашей личности");
                     String password1 = keyboard.nextLine();
 
@@ -130,6 +147,10 @@ public class Application {
             System.out.println(title + " принят");
 
         }
+
+        FileUtils.writeDataToAvailabilityOfDrug(a.availabilityOfDrugs,"src\\main\\resources\\availabilityOfDrug");
+        FileUtils.writeDataToFileGeneraleRecipeKey(a.generaleRecipeKeys,"src\\main\\resources\\generaleRecipeKey");
+        FileUtils.writeDataToSignRecipe(a.signRecipes, "src\\main\\resources\\recipe");
     }
 }
 
