@@ -95,14 +95,19 @@ public class Application {
             String k = "";
             while (!k.equals("4") && (!k.equals("1")) && (!k.equals("2")) && (!k.equals("3"))) {
                 k = keyboard.nextLine();
+                boolean isRecipeValid = false;
                 if (k.equals("1")) {
                     for (GeneraleRecipeKey generale : a.generaleRecipeKeys) {
                         String hashedPassword = new HmacUtils(HMAC_SHA_224, "secret".getBytes()).hmacHex(generale.keyWord);
                         if (hashedPassword.equals(a.recipe.uniqueKey)) {
                             System.out.println("Рецепт прошел проверку на подлинность");
                             k = keyboard.nextLine();
+                            isRecipeValid = true;
                             break;
                         }
+                    }
+                    if (!isRecipeValid) {
+                        System.out.println("Рецепт НЕ прошел проверку на подлинность");
                     }
                 }
                 if (k.equals("2")) {
