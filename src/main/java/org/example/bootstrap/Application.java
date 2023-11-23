@@ -13,7 +13,7 @@ import java.util.Scanner;
 import static org.apache.commons.codec.digest.HmacAlgorithms.HMAC_SHA_224;
 
 public class Application {
-    //   public final List<SalesJournal> salesJournals;
+
     public final List<User> users;
     public final List<GeneraleRecipeKey> generaleRecipeKeys;
     public final List<AvailabilityOfDrug> availabilityOfDrugs;

@@ -6,7 +6,6 @@ import java.util.UUID;
 
 @Builder
 @AllArgsConstructor
-@ToString
 @Getter
 @Setter
 public class User {
